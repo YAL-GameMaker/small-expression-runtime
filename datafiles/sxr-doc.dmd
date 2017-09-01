@@ -10,7 +10,7 @@
 		--	*Parentheses*: for grouping expressions.
 			These have zero impact at execution speed so can be added as you see fit.
 		--	*Function calls*: up to 16 arguments. Defined via [sxr_func_add].
-		--	*Constants:* inlined compile-time. Defined via [sxr_const_add].
+		--	*Constants:* computed compile-time. Defined via [sxr_const_add].
 			Language-level constants (true, false, undefined) are supported.
 		--	*Variables:* evaluated run-time. Defined via [sxr_var_add].
 		}
@@ -28,7 +28,7 @@
 }
 #[General functions](general) {
 	#[sxr_init()]() {
-		Initializes SXR, creating all requried data structures and buffers.
+		Initializes SXR, creating all required data structures and buffers.
 	}
 	#[sxr_string_format(value)]() {
 		Converts a numeric value to a string with automatic precision (up to 15 decimal digits and no trailing zeroes).
@@ -58,7 +58,7 @@
 		If there was no error, contains an empty string *""*.
 	}
 }
-#[Program functions](sxr_compile) {
+#[Program functions](sxr_program) {
 	#[sxr_compile(code, ?debug)]() {
 		Compiles the given code and returns a "program" reference.
 		
@@ -129,7 +129,7 @@
 		Removes a previously defined variable accessor (if any).
 	}
 	#[scr_var_func]() {
-		A script index can be assigned to this variable to register a "catch-all" variable accessor - that is, the one that will be used for any unrecognized variables instead of just showing a "not a known constant or a variable" error.
+		A script index can be assigned to this variable to register a "catch-all" variable accessor - that is, the one that will be used for any unrecognised variables instead of just showing a "not a known constant or a variable" error.
 		
 		Same as [sxr_var_add], receives the variable' name as *argument0* and should return the value or set [sxr_exec_error].
 	}
