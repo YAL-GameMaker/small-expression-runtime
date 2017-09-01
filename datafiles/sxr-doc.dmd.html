@@ -1,0 +1,280 @@
+<html><head>
+<meta charset="UTF-8">
+<title>SXR cheat sheet</title>
+<style type="text/css">
+html {
+	background-color: #f9f9f9;
+}
+body {
+	font: 15px 'Open Sans', sans-serif;
+	max-width: 640px;
+	background: #ffffff;
+	margin: 0 auto;
+	padding: 8px;
+	box-shadow: 0 0 0 2px #eee;
+}
+tt {
+	font-size: 85%;
+}
+
+#doc, #doc ul {
+	list-style: none;
+	padding-left: 0;
+}
+#doc div > ul, #doc div > ol {
+	padding-left: 30px;
+}
+#doc div > ul {
+	list-style-type: disc;
+}
+
+#doc .header {
+	margin: 0;
+	font-weight: 700;
+	font-size: 100%;
+	color: #458;
+	border-left: 2px solid #f3f3f3;/* #f9f9f9*/
+	padding-left: 4px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	cursor: pointer;
+}
+#doc .header::before {
+	display: inline-block;
+	content: "+";
+	font: 12px monospace;
+	border: 1px solid #458;
+	line-height: 11px;
+	height: 11px;
+	width: 11px;
+	text-align: center;
+	border-radius: 50%;
+	margin-right: 4px;
+	vertical-align: middle;
+	position: relative;
+	top: -1px;
+}
+#doc .item.open > .header::before {
+	content: "-";
+}
+#doc .header:hover {
+	border-left-color: #f3f3f3;
+	background: #f3f3f3;
+}
+
+#doc p {
+	margin: 0;
+}
+#doc p + p {
+	margin-top: 0.5em;
+}
+
+#doc .content, #doc ul {
+	padding-left: 20px;
+	border-left: 2px solid #f3f3f3;
+}
+#doc pre, #doc tt {
+	font-family: Consolas, Dejavu Sans Mono, Segoe UI Mono, Ubuntu Mono, Lucida Console, monospace;
+}
+#doc pre {
+	font-size: 9pt;
+	line-height: 1.25;
+	background: white;
+	/*border: 1px solid #d0d0d0;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);*/
+	padding: 4px 2px 4px 10px;
+	margin: 0;
+	tab-size: 4;
+	overflow-x: auto;
+}
+/* delay display until load */
+#doc { display: none; }
+#doc .item:not(.open) > .content {
+	display: none;
+}
+</style>
+<style type="text/css">
+/* Code ahead */
+.gminfo .code.mono {
+	font-family: Consolas, monospace;
+	font-size: 12px;
+	line-height: 1.25;
+	margin: 0;
+}
+.gminfo .action > .code.mono {
+	margin-left: 28px;
+}
+/** */
+.gminfo .code .kw, .gminfo .code .sp {
+	color: #008;
+	font-weight: bold;
+}
+/** comments */
+.gminfo .code .co { color: #888; }
+/** numbers */
+.gminfo .code .nu { color: #00F; }
+.gminfo .code .nx { color: #00F; }
+/** strings */
+.gminfo .code .st { color: #00F; }
+/** resource indexes */
+.gminfo .code .ri { color: rgb(0, 120, 170); }
+/** standard/built-in variable */
+.gminfo .code .sv { color: #800; }
+/** standard/built-in function */
+.gminfo .code .sf { color: #800; }
+/** user-defined variable name */
+.gminfo .code .uv { color: #408; }
+/** user-defined script/function */
+.gminfo .code .uf { color: #808; }
+/** user-defined field (inst.field) */
+.gminfo .code .fd { color: #408; }
+</style>
+<style type="text/css">
+/* GameMakerLanguage */
+pre.gml .imp {font-weight: bold; color: red;}
+pre.gml .ln-xtra {color: #cc0; background-color: #ffc;}
+pre.gml li {font-family: 'Courier New', Courier, monospace; color: black; font-weight: normal; font-style: normal;}
+pre.gml li.li2 {font-weight: bold;}
+pre.gml .kw1 {font-weight: bold; color: #000080;}
+pre.gml .kw2 {color: #A00000;}
+pre.gml .kw3 {color: #A00000;}
+pre.gml .kw4 {color: #A00000;}
+pre.gml .kw5 {color: #8000A0;}
+pre.gml .kw6 {color: #0080AA;}
+pre.gml .co1 {font-style: italic; color: green;}
+pre.gml .coMULTI {font-style: italic; color: green;}
+pre.gml .es0 {color: #000099; font-weight: bold;}
+pre.gml .br0 {color: #000000;}
+pre.gml .st0 {color: #0000ff;}
+pre.gml .nu0 {color: #0000ff;}
+pre.gml .me1 {color: #202020;}
+</style>
+<noscript><style>
+#doc .header::before {
+	display: none;
+}
+#doc .header:hover {
+	border-left-color: #f3f3f3;
+	background: inherit;
+}
+#doc { display: inherit }
+#doc .item:not(.open) > .content {
+	display: inherit;
+}
+</style></noscript>
+</head><body>
+This is a function "cheat sheet" for the SXR extension by YellowAfterlife.<br>
+The extension can be downloaded from
+<a href="https://marketplace.yoyogames.com/assets/5783/_">Marketplace</a>
+or <a href="https://yellowafterlife.itch.io/gamemaker-sxr">itch.io</a>.<br>
+A most up-to-date version of the manual is always <a href="https://yal.cc/r/17/sxr/">available online</a>.<br>
+<br>
+Click on sections to expand/collapse them.<br>
+Quick display controls: <a href="#" onclick="opt_none(); return false">Categories</a>
+&middot; <a href="#" onclick="opt_list(); return false">Functions</a>
+&middot; <a href="#" onclick="opt_all(); return false">Everything</a>
+<div id="doc">
+<!--<doc--><!--doc>-->
+</div> <!-- #doc -->
+<!-- doc: -->
+<script>(function() {
+var doc = document.getElementById("doc");
+var headers = doc.getElementsByClassName("header");
+//
+var path = "sxr.doc.state";
+var state = null;
+if (window.localStorage && JSON.parse) {
+	state = window.localStorage.getItem(path);
+	state = state ? JSON.parse(state) : { };
+	if (state == null) state = { };
+}
+//
+function h3bind(h3) {
+	var node = h3.parentNode;
+	var snip = node.children[1];
+	h3.snip = snip;
+	h3.doc_set = function(z) {
+		if (z) node.classList.add("open"); else node.classList.remove("open");
+		if (state) {
+			state[h3.textContent] = z;
+			window.localStorage.setItem(path, JSON.stringify(state));
+		}
+	}
+	h3.doc_hide = function() {
+		this.doc_set(false);
+	}
+	h3.doc_show = function() {
+		this.doc_set(true);
+	}
+	h3.onclick = function(_) {
+		var seen = !node.classList.contains("open");
+		h3.doc_set(seen);
+	};
+}
+function getHashFunc(id) {
+	return function(e) {
+		var node = document.getElementById(id);
+		while (node && node != doc) {
+			if (node.classList.contains("item")) {
+				node.classList.add("open");
+			}
+			node = node.parentElement;
+		}
+	};
+}
+(function() {
+	for (var i = 0; i < headers.length; i++) h3bind(headers[i]);
+	// Clicks in document expand the related section:
+	var anchors = doc.getElementsByTagName("a");
+	for (var i = 0; i < anchors.length; i++) {
+		var anchor = anchors[i];
+		var href = anchor.getAttribute("href");
+		if (href[0] == "#") {
+			anchor.addEventListener("click", getHashFunc(href.substr(1)));
+		}
+	}
+})();
+// Display helpers:
+window.opt_none = function() {
+	for (var li = 0; li < headers.length; li++) headers[li].doc_hide();
+};
+window.opt_list = function() {
+	for (var li = 0; li < headers.length; li++) {
+		var h3 = headers[li];
+		if (h3.parentNode.parentNode != doc) {
+			h3.doc_hide();
+		} else h3.doc_show();
+	}
+};
+window.opt_all = function() {
+	for (var li = 0; li < headers.length; li++) headers[li].doc_show();
+};
+// Default display setting:
+(function() {
+	for (var li = 0; li < headers.length; li++) {
+		var h3 = headers[li];
+		var val = state ? state[h3.textContent] : null;
+		if (val == null) val = h3.parentNode.parentNode == doc;
+		if (val) h3.doc_show(); else h3.doc_hide();
+	}
+})();
+//
+(function() {
+	var hash = document.location.hash;
+	if (hash) {
+		var _hash = hash.substr(1);
+		getHashFunc(_hash)();
+		setTimeout(function() {
+			document.location.hash = hash + " ";
+			setTimeout(function() {
+				document.location.hash = hash;
+			}, 0);
+		}, 1);
+	}
+})();
+//
+doc.style.display = "inherit";
+})();
+</script>
+<!--<script type="text/javascript" src="http://livejs.com/live.js"></script>-->
+</body></html>

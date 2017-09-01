@@ -1,0 +1,1 @@
+return variable_instance_get(id, argument0);

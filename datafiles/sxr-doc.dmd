@@ -1,0 +1,136 @@
+#[Features](features) {
+	#[Supported syntax](syntax) {
+		SXR supports a number of basic GML-like structures for expressions,
+		--{
+		--	*Numbers:* decimal values with signs and 64-bit precision.
+		--	*Strings:* single-quoted or double-quoted. No escape characters (GMS1-like).
+		--	*Operators:* all standard GML operators are supported.
+			Boolean AND/OR do not use short circuiting (GM8.1-like).
+			Operator precedence is identical to that of GML.
+		--	*Parentheses*: for grouping expressions.
+			These have zero impact at execution speed so can be added as you see fit.
+		--	*Function calls*: up to 16 arguments. Defined via [sxr_func_add].
+		--	*Constants:* inlined compile-time. Defined via [sxr_const_add].
+			Language-level constants (true, false, undefined) are supported.
+		--	*Variables:* evaluated run-time. Defined via [sxr_var_add].
+		}
+		In other words, things that can be usually assigned to a variable.
+		
+		Features like data structure accessors or array accessors are not supported, but can be implemented via functions (runtime can operate with any value types).
+	}
+	#[Performance](perf) {
+		SXR is designed and built to be fast.
+		
+		Being a pure-GML extension, SXR cannot be incredibly fast, but appropriate measures were taken to make it as fast as it can be to compile and run expressions.
+		
+		SXR parses source code into a list of tokens, which are then compiled into an abstract syntax tree, which is then optimized and compiled into a bytecode-like format for execution. Programs can be cached manually (via [sxr_compile] + [sxr_exec]) or automatically (via [sxr_eval]) and are executed by a fast stack-based interpreter.
+	}
+}
+#[General functions](general) {
+	#[sxr_init()]() {
+		Initializes SXR, creating all requried data structures and buffers.
+	}
+	#[sxr_string_format(value)]() {
+		Converts a numeric value to a string with automatic precision (up to 15 decimal digits and no trailing zeroes).
+	}
+}
+#[Eval functions](sxr_eval) {
+	#[sxr_eval(code)]() {
+		The easiest way to use SXR - provide a snippet of code, and the function will compile and execute it, returning the result.
+		
+		If an error occurs during compilation or execution, returns *undefined* and sets [sxr_eval_error].
+		
+		Compiled programs are reused on subsequent calls, being freed once they weren't in use for several seconds (see [sxr_eval_cache_time]).
+	}
+	#[sxr_eval_clear()]() {
+		Frees all currently cached programs for [sxr_eval].
+		
+		This is convenient if you want to change constant/variable/function definitions and do not want anything with "older" definitions to still have effect.
+	}
+	#[sxr_eval_cache_time]() {
+		Indicates (in milliseconds), how long the cached program can go unused for before memory used for it should be freed.
+		
+		Default value is *5000* (5s).
+	}
+	#[sxr_eval_error]() {
+		Contains the text of error occurring during the last [sxr_eval] call.
+		
+		If there was no error, contains an empty string *""*.
+	}
+}
+#[Program functions](sxr_compile) {
+	#[sxr_compile(code, ?debug)]() {
+		Compiles the given code and returns a "program" reference.
+		
+		If an error occurs during compilation, returns *undefined* and sets [sxr_compile_error].
+		
+		If the optional *debug* parameter is specified, debug information is included in the compiled program, allowing to call [sxr_print] on it.
+	}
+	#[sxr_compile_error]() {
+		Contains the text of error occurring during the last [sxr_compile] call.
+		
+		If there was no error, contains an empty string *""*.
+	}
+	#[sxr_exec(program)]() {
+		Executes a previously compiled program and returns the result.
+		
+		If an error occurs during execution, returns *undefined* and sets [sxr_exec_error].
+	}
+	#[sxr_exec_error]() {
+		Contains the text of error occurring during the last [sxr_exec] call.
+		
+		If there was no error, contains an empty string *""*.
+	}
+	#[sxr_print(program)]() {
+		If the *debug* parameter was set during compilation of the given program, outputs a string denoting how the program is structured post-optimization.
+		
+		For example, doing ```
+<pre class="gml"><span class="kw1">var</span> pg = <span class="kw5">sxr_compile</span>(<span class="st0">"x + 4 / 5"</span>, <span class="kw2">true</span>);
+<span class="kw3">show_debug_message</span>(<span class="kw5">sxr_print</span>(pg));</pre>
+``` would display *x + 0.8* since *4 / 5* get evaluated compile-time.
+		
+		This has limited use outside of debugging and is intended for gaining a better understanding of how expression optimization works in SXR.
+	}
+}
+#[User-defined API](sxr_api) {
+	The following are used to expose game' scripts/variables/constants to code ran via SXR.
+	
+	Note that changing the API has no effect on already-compiled programs - only the newly compiled snippets will be affected.
+	#[sxr_const_add(name, value)]() {
+		Defines (or updates) a constant for use in code ran via SXR.
+		
+		Constants must be of either string or numeric types, and will be evaluated compile-time, where possible.
+	}
+	#[sxr_const_delete(name)]() {
+		Removes a previously defined constant (if any).
+	}
+	#[sxr_func_add(name, script, argc, ?static)]() {
+		Exposes a script for use in code ran via SXR.
+		
+		*argc* is the argument count required for the script. For scripts taking variable argument count, use *-1* and throw an error ([sxr_exec_error]) if there are too few/too many arguments.
+		
+		*static* is an optional parameter indicating that the function always provides the same numeric/string outputs given the same inputs, and thus the result can be pre-computed compile-time. For example, sin() is a "static" function, as it always returns the same value given the same angle; random() isn't a "static" function since it can return different values given the same input.
+		
+		Non-"static" scripts can accept and return values of any type.
+		
+		From inside the script, [sxr_exec_error] can be set to a string to yield an error - for example, if your function accepts only numeric values, you would yield an error when receiving non-numeric ones. See `ref_not_number` in the included demo for an example.
+	}
+	#[sxr_func_delete(name)]() {
+		Removes a previously exposed script (if any).
+	}
+	#[sxr_var_add(name, script)]() {
+		Registers a variable accessor script for the given variable name.
+		
+		The script should return the variable' value or set [sxr_exec_error] if an error should be displayed.
+		
+		The script will also receive the variable' name as first argument, allowing to reuse the same script for multiple variables by comparing that argument (optional).
+	}
+	#[sxr_var_delete(name)] {
+		Removes a previously defined variable accessor (if any).
+	}
+	#[scr_var_func]() {
+		A script index can be assigned to this variable to register a "catch-all" variable accessor - that is, the one that will be used for any unrecognized variables instead of just showing a "not a known constant or a variable" error.
+		
+		Same as [sxr_var_add], receives the variable' name as *argument0* and should return the value or set [sxr_exec_error].
+	}
+}
