@@ -1,5 +1,4 @@
 #macro sxr_build_no_ops 1
-#macro sxr_build_no_sfx 2
 #macro sxr_build_curr sxr_build_tks[sxr_build_pos]
 #macro sxr_build_next sxr_build_tks[sxr_build_pos++]
 
@@ -83,10 +82,13 @@ while (1) {
 			if (sxr_build_call(tk)) return true;
 			continue;
 		case sxr_tk_binop: // value + value
-			if (sxr_build_ops(tk)) return true;
-			continue;
-		default: sxr_build_pos--; // ->
+		    if ((flags & sxr_build_no_ops) == 0) {
+    			if (sxr_build_ops(tk)) return true;
+    			continue;
+		    } else break; // ->
+		default: break; // ->
 	}
+	sxr_build_pos -= 1;
 	break;
 }
 return false;

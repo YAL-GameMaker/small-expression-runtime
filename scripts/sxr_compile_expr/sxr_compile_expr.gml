@@ -1,5 +1,6 @@
 /// @arg node
 /// @arg out
+// Recursively compiles AST to resulting list of VM actions.
 var q = argument0;
 var r = argument1;
 var o, i, n, w;

@@ -1,3 +1,7 @@
+/// @arg program
+/// @return Resulting value.
+// Executes the given program.
+// sxr_exec_error contains error text in case of error, "" if none.
 #macro sxr_exec_error global.sxr_exec_error_val
 #macro sxr_exec_buffers global.sxr_exec_buffers_val
 //

@@ -1,6 +1,7 @@
 /// sxr_parse_sub(start, till)
 /// @arg start
 /// @arg end
+// Extracts a substring between start-end.
 var i = argument0;
 var n = argument1 - i;
 var sb = sxr_parse_charb;

@@ -1,5 +1,7 @@
 /// @arg code
 /// @arg ?debug Whether to keep debug information for sxr_print
+// Compiles a snippet of code to a VM program.
+// If an error occurs, sets sxr_compile_error and returns undefined.
 #macro sxr_compile_error global.sxr_compile_error_val
 #macro sxr_compile_list  global.sxr_compile_list_val
 var code = argument[0];

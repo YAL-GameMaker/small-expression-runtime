@@ -143,6 +143,14 @@
             }
         },
         {
+            "Key": "3a5af38c-757d-44ae-98c0-5d4b09e14e6a",
+            "Value": {
+                "id": "cc1b222a-7455-42bb-bc2b-e3534479979a",
+                "resourcePath": "options\\ps4\\options_ps4.yy",
+                "resourceType": "GMPS4Options"
+            }
+        },
+        {
             "Key": "3bcd8b04-10bd-462a-81bb-4aa78cbb5da7",
             "Value": {
                 "id": "000dddc9-6426-402b-993a-f467c9403092",
@@ -287,6 +295,14 @@
             }
         },
         {
+            "Key": "7e093a2a-e51c-4a1e-9a53-f9080d38730b",
+            "Value": {
+                "id": "0da9343b-eb2f-4195-b8a3-187fedbc4fd5",
+                "resourcePath": "options\\windowsuap\\options_windowsuap.yy",
+                "resourceType": "GMWindowsUAPOptions"
+            }
+        },
+        {
             "Key": "7fc66110-77d2-42fd-99f1-e53658af6efb",
             "Value": {
                 "id": "e8b4a185-9943-45e6-8eba-98d349226c7e",
@@ -343,6 +359,14 @@
             }
         },
         {
+            "Key": "93566aad-c3b3-48a9-8fa7-9c5ee19f74ac",
+            "Value": {
+                "id": "dc9287ee-f749-4864-b0e5-843b43ae91df",
+                "resourcePath": "options\\tvos\\options_tvos.yy",
+                "resourceType": "GMtvOSOptions"
+            }
+        },
+        {
             "Key": "98f9d088-0174-4a55-9415-91c3143ed01c",
             "Value": {
                 "id": "cd0ee56c-1edb-4c14-90cb-dcf82b94b16c",
@@ -380,6 +404,14 @@
                 "id": "03826839-8a74-4903-9600-3283c3e696fa",
                 "resourcePath": "scripts\\ref_min\\ref_min.yy",
                 "resourceType": "GMScript"
+            }
+        },
+        {
+            "Key": "a128950b-5063-4876-b4a6-b99dbd2ea6d1",
+            "Value": {
+                "id": "a4b92cc0-e122-46ea-b00d-ff6f97003fcf",
+                "resourcePath": "options\\amazonfire\\options_amazonfire.yy",
+                "resourceType": "GMAmazonFireOptions"
             }
         },
         {
@@ -748,6 +780,14 @@
                 "id": "2030946f-7bbd-4053-883b-90d2db4d3384",
                 "resourcePath": "views\\f524664b-870d-4f7a-a896-0a67680a6ed3.yy",
                 "resourceType": "GMFolder"
+            }
+        },
+        {
+            "Key": "f85efd3d-bcec-4ec0-8226-da808afda79d",
+            "Value": {
+                "id": "328c81f6-cd67-48d6-b693-e50f64b826ab",
+                "resourcePath": "options\\xboxone\\options_xboxone.yy",
+                "resourceType": "GMXBoxOneOptions"
             }
         },
         {

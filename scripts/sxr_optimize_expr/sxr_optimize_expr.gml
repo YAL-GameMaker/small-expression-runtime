@@ -1,4 +1,8 @@
 /// @arg expr
+// This script attempts to optimize expressions at compile-time.
+// So, for example, if you had `(2 + 3) * -4`, that'll be changed to
+// `5 * -4` and then to `-20`. It'll also execute functions which
+// were marked as static. This is similar to what GM itself does.
 var q = argument0;
 var a, b, w, i, n, z;
 switch (q[0]) {
@@ -75,12 +79,17 @@ switch (q[0]) {
 		}
 		break;
 	case sxr_node_call:
-		w = q[3];
+		w = q[3]; // arguments
 		n = array_length_1d(w);
-		z = q[5];
+		z = q[5]; // can be optimized if it's a static function call
+		
+		// firstly, we attempt to optimize function's arguments:
 		for (i = 0; i < n; i++) {
 			a = w[i];
 			if (sxr_optimize_expr(a)) return true;
+			
+			// if function call is still a candidate for optimization, verify that
+			// the argument is a constant value, and unmark it if it isn't:
 			if (z) switch (a[0]) {
 				case sxr_node_number:
 				case sxr_node_string:
@@ -89,7 +98,9 @@ switch (q[0]) {
 				default: z = false;
 			}
 		}
-		if (z) {
+		
+		if (z) { // if the function can indeed be optimized out,
+		    // we form a stack for a runtime-like call,
 			i = n;
 			b = ds_stack_create();
 			while (--i >= 0) {
@@ -97,11 +108,15 @@ switch (q[0]) {
 				switch (a[0]) {
 					case sxr_node_number: ds_stack_push(b, a[2]); break;
 					case sxr_node_string: ds_stack_push(b, a[2]); break;
-					default: ds_stack_push(b, undefined);
+					default: ds_stack_push(b, undefined); // (we have no other types so it is)
 				}
 			}
+			
+			// call the function,
 			sxr_exec_error = "";
 			a = sxr_exec_call(q[2], b, n);
+			
+			// verify that this didn't throw up an error,
 			if (a != "") {
 				ds_stack_destroy(b);
 				return sxr_compile_exit(sxr_exec_error, q);
@@ -109,6 +124,8 @@ switch (q[0]) {
 				a = ds_stack_pop(b);
 				ds_stack_destroy(b);
 			}
+			
+			// and replace the function with the appropriate AST node for the value:
 			if (is_real(a) || is_int64(a) || is_bool(a)) {
 				q[@0] = sxr_node_number;
 				q[@2] = a;
@@ -119,6 +136,8 @@ switch (q[0]) {
 				q[@0] = sxr_node_undefined;
 				q[@2] = undefined;
 			} else return sxr_compile_exit("Can't inline " + string(a) + " (" + typeof(a) + ")", q);
+			
+			// (and also reset now-unused tail arguments because we can't shrink arrays)
 			for (i = 3; i <= 5; i++) q[@i] = undefined;
 		}
 		break;

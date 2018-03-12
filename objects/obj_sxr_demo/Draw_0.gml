@@ -3,7 +3,9 @@ draw_set_color(c_white);
 var s;
 if (program != undefined) {
 	s = sxr_exec(program);
-	if (is_string(s)) {
+	if (sxr_exec_error != "") {
+	    s = "<error> " + sxr_exec_error;
+	} else if (is_string(s)) {
 		s = "\"" + s + "\"";
 	} else if (is_real(s) || is_int64(s) || is_bool(s)) {
 		s = sxr_string_format(s)

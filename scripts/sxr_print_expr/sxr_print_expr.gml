@@ -1,6 +1,7 @@
 /// @arg node
 /// @arg buffer
 /// @arg parentheses
+// Recursively prints the given AST node (for debug purposes)
 var q = argument0, b = argument1, z = argument2;
 switch (q[0]) {
 	case sxr_node_undefined: buffer_write(b, buffer_text, "undefined"); break;
